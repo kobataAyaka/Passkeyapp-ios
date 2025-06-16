@@ -1,0 +1,64 @@
+# Xcode Generated files and folders
+.DS_Store
+*.xcodeproj/xcuserdata/
+*.xcuserdatad/
+DerivedData/
+*.xcarchive/
+*.xcassets/
+*.playground/
+
+# Build artifacts
+build/
+*.o
+*.d
+*.lo
+*.gcda
+*.gcno
+*.gcov
+*.modulemap
+*.a
+*.dylib
+*.so
+*.app
+*.ipa
+*.xcappdata
+
+# CocoaPods (if used)
+Pods/
+!Pods/Manifest.lock # Manifest.lock is usually committed to ensure consistent dependency versions
+
+# Swift Package Manager (if used)
+.swiftpm/
+# For Package.resolved, it is generally recommended to commit it to lock dependency versions,
+# but if you prefer to ignore it for a very specific reason, uncomment the line below:
+# Package.resolved
+
+# Fastlane (if used)
+fastlane/report.xml
+fastlane/screenshots/
+fastlane/test_output/
+
+# Firebase specific files
+# GoogleService-Info.plist contains sensitive information and is usually configured per environment.
+# For small personal demos, it's sometimes committed for simplicity, but generally it should be ignored
+# and managed via other means (e.g., environment variables, CI/CD).
+GoogleService-Info.plist
+# Firebase CLI and Function related logs/configs
+firebase-debug.log
+firebase-*.log
+.firebase/
+functions/node_modules/ # Node.js dependencies for Cloud Functions [3, 4]
+functions/lib/ # Compiled JavaScript files (if you use TypeScript)
+.env # Environment variables for local Node.js development [5]
+
+# ngrok specific files (if used for local testing)
+.ngrok2/ # ngrok configuration and authentication token [6, 7]
+
+# Other common temporary files
+.temp/
+.idea/ # IntelliJ / AppCode specific files
+*.swp # Vim swap files
+*.bak # Backup files
+*~ # Emacs backup files
+*.log
+.tool-versions # asdf version manager files

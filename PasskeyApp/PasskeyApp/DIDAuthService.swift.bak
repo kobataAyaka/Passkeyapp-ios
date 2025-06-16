@@ -1,0 +1,56 @@
+//
+//  DIDAuthService.swift
+//  PasskeyApp
+//
+//  Created by 小幡綾加 on 6/16/25.
+//
+
+// MARK: - DidAuthService (Trinsic SDK の場合)
+class DidAuthService: AuthService {
+    // Trinsicのダッシュボードで取得したAPIキーを設定 [13, 16]
+    let trinsic = TrinsicService(authToken: "YOUR_TRINSIC_API_KEY")
+    var userDid: String? // 生成したDIDを保持
+
+    // DIDウォレットの生成 (DID/VCにおける認証に相当)
+    func authenticate(completion: @escaping (Result<String, Error>) -> Void) {
+        trinsic.wallet().createWallet { [weak self] result in
+            switch result {
+            case .success(let wallet):
+                self?.userDid = wallet.did
+                completion(.success("DIDウォレットが生成されました: \(wallet.did)"))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    // VC (Verifiable Credential) の発行
+    func issueCredential(completion: @escaping (Result<String, Error>) -> Void) {
+        guard userDid != nil else {
+            completion(.failure(NSError(domain: "DID", code: -1, userInfo: [NSLocalizedDescriptionKey: "DIDがまだ生成されていません。先に「Authenticate」を実行してください。"])))
+            return
+        }
+        let values = ["name": "Taro Yamada", "email": "taro@example.com"]
+        // Trinsicダッシュボードで作成したVCテンプレートのIDを設定 [17, 18]
+        trinsic.credential().issue(withTemplateId: "YOUR_TRINSIC_TEMPLATE_ID", values: values) { result in
+            switch result {
+            case .success(let credential):
+                completion(.success("VCが発行されました: \(credential)"))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    // VC (Verifiable Credential) の検証
+    func verifyCredential(credential: String, completion: @escaping (Result<String, Error>) -> Void) {
+        trinsic.credential().verify(credential: credential) { result in
+            switch result {
+            case .success(let verification):
+                completion(.success("VC検証成功: \(verification)"))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+}
